@@ -56,6 +56,9 @@ document.querySelector("#start_chat").addEventListener("click", (event) => {
 
 
     socket.on("admin_send_to_client", message => {
+        // O admin só vai receber mensagem do client quando ele mesmo responder. Caso o cliente responda mais
+        // mensagens antes disso, não mostrará pro admin.
+        // Salva o id da mensagem recebida como o id do antendente
         socket_admin_id = message.socket_id;
 
         const template_admin = document.getElementById("admin-template").innerHTML;
@@ -76,6 +79,8 @@ document.querySelector("#send_message_button").addEventListener("click", (event)
         socket_admin_id
     }
 
+    // Caso nenhum antendente responda ao usuário, params.socket_admin_id será nulo e a mensagem será enviada para ninguém.
+    // Solução: assim que o atendente clicar em 
     socket.emit("client_send_to_admin", params);
 
     const template_client = document.getElementById("message-user-template").innerHTML;

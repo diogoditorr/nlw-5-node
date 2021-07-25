@@ -1,5 +1,7 @@
 const socket = io();
 let connectionsUsers = [];
+
+// Se o servidor reiniciar, dará erro nas conexões armazenadas;
 let connectedUsers = [];
 
 socket.on("admin_list_all_users", (connections) => {
@@ -93,12 +95,18 @@ function sendMessage(id) {
 }
 
 socket.on("admin_receive_message", (data) => {
-    // const connection = connectionsUsers.find(connection => (connection.socket_id === data.socket_id));
+    // const connection = connectionsUsers.find(connection => (connection.socket_id === data.socket_id))
+    
     const connection = connectedUsers.find(connection => (connection.socket_id === data.socket_id));
 
     const divMessages = document.getElementById(
         `allMessages${connection.user_id}`
     );
+
+    console.log("Recebeu uma nova mensagem")
+    console.log(data);
+    console.log(connection);
+    console.log(divMessages);
 
     const createDiv = document.createElement("div")
 
